@@ -1,0 +1,52 @@
+[
+  {
+    "wareName": "so he",
+    "unit": "عدد",
+    "group": "dewfsdf",
+    "description": "so has an do to",
+    "cost": 55555,
+    "sale": 45566,
+    "quantity": 4,
+    "id": null
+  },
+  {
+    "wareName": "holder",
+    "unit": "عدد",
+    "group": "another",
+    "description": "so has an do to",
+    "cost": 55555,
+    "sale": 45566,
+    "quantity": 4,
+    "id": null
+  },
+  {
+    "wareName": "tools",
+    "unit": "عدد",
+    "group": "dewfsdf",
+    "description": "so has an do to",
+    "cost": 55555,
+    "sale": 45566,
+    "quantity": 4,
+    "id": null
+  },
+  {
+    "wareName": "New Product",
+    "unit": "عدد",
+    "group": "default",
+    "description": "to much text for testing the text holder in program",
+    "cost": 500000,
+    "sale": 60000,
+    "quantity": 50,
+    "id": null
+  },
+  {
+    "wareName": "zanbil",
+    "unit": "عدد",
+    "group": "default",
+    "description": "for shopping with London handles",
+    "cost": 24000,
+    "sale": 30000,
+    "quantity": 4,
+    "id": null
+  }
+]
