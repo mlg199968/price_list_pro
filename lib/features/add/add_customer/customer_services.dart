@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/constants/error_handling.dart';
@@ -34,8 +36,27 @@ try{
 
 
 }catch(e){
-  showSnackBar(context, "Customer Services error: $e");
-  print(e);
+  showSnackBar(context,"Customer Services error: $e");
+  rethrow;
 }
+  }
+
+  Future<List<Customer>> getCustomers(BuildContext context)async{
+    List<Customer> customerList=[];
+    try{
+      http.Response res=await http.get(Uri.parse("$uri/user/get-customers"),headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(response: res, context: context, onSuccess: (){
+       for(int i=0;i<jsonDecode(res.body).length;i++){
+         customerList.add(Customer.fromJson(jsonEncode(jsonDecode(res.body)[i]),),);
+       }
+      });
+    }catch(e){
+      showSnackBar(context, "getCustomers List error $e");
+      rethrow;
+    }
+    return customerList;
   }
 }

@@ -4,6 +4,7 @@ import 'package:price_list_pro/features/add/add_ware/add_ware_screen.dart';
 
 import 'package:price_list_pro/features/auth/signin_screen.dart';
 import 'package:price_list_pro/features/auth/signup_screen.dart';
+import 'package:price_list_pro/features/home/customer_list/customer_list_screen.dart';
 import 'package:price_list_pro/features/home/home_Screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
 import 'package:price_list_pro/features/main/main_screen.dart';
@@ -22,6 +23,8 @@ Route generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_)=> const AddWareScreen());
       case AddCustomerScreen.id:
       return MaterialPageRoute(builder: (_)=> const AddCustomerScreen());
+      case CustomerListScreen.id:
+      return MaterialPageRoute(builder: (_)=> const CustomerListScreen());
 
       case WareListScreen.id:
       return MaterialPageRoute(builder: (_)=> const WareListScreen());

@@ -7,10 +7,14 @@ import 'package:price_list_pro/model/ware.dart';
 
 // ignore: must_be_immutable
 class CellContent extends StatelessWidget {
-  CellContent(this.cell,this.cells,this.holderFlex, {super.key});
+  CellContent({
+    required this.cell,
+    required this.holderFlex,
+    required this.onTapWidget
+  });
   int holderFlex=1;
   String cell;
-  Ware cells;
+  final Widget onTapWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,8 @@ class CellContent extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return InfoPanel(cells);
-                //Consumer<FinalList>(builder:(context,productList,child){return InfoPanel(productList.dataList[productList.currentIndex]);},);
+                return onTapWidget;
+
               },
             );
           },

@@ -16,4 +16,11 @@ customerRouter.post("/user/customers",customer,async(req,res)=>{
       }
    
 });
+
+//get customer list for client
+
+customerRouter.get("/user/get-customers",async(req,res)=>{
+var customerList=saver.readFromJson("./db/user/customer.json");
+res.json(customerList);
+});
 module.exports=customerRouter;

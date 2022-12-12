@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/card_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/add/add_ware/ware_services.dart';
+import 'package:price_list_pro/features/home/customer_list/customer_list_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
 import 'package:price_list_pro/model/ware.dart';
 
@@ -31,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CardButton(label: "Add Bills",image: "5",onTap: (){},),
               ],
             ),
-            CardButton(label: "Customer List",image: "5",onTap: (){},direction: false,height: 100,),
+            CardButton(label: "Customer List",image: "5",onTap: (){
+              Navigator.pushNamed(context, CustomerListScreen.id);
+            },direction: false,height: 100,),
           ],
         ),
       ),
