@@ -9,14 +9,14 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: ButtonStyle(padding:MaterialStateProperty.all(EdgeInsets.all(0))),
+      style: ButtonStyle(padding:MaterialStateProperty.all(const EdgeInsets.all(0))),
       onPressed: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 50,
         decoration: BoxDecoration(gradient: kMainGradiant,borderRadius: BorderRadius.circular(5)),
         alignment: Alignment.center,
-          child: Text(text,style: TextStyle(color:Colors.white,fontSize: 15),)),
+          child: Text(text,style: const TextStyle(color:Colors.white,fontSize: 15),)),
 
     );
   }

@@ -48,5 +48,105 @@
     "sale": 30000,
     "quantity": 4,
     "id": null
+  },
+  {
+    "wareName": "SubGround",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 12000,
+    "sale": 30000,
+    "quantity": 12,
+    "id": null
+  },
+  {
+    "wareName": "Subtitle",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 12000,
+    "sale": 30000,
+    "quantity": 12,
+    "id": null
+  },
+  {
+    "wareName": "olad",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 4500,
+    "sale": 7800,
+    "quantity": 60,
+    "id": null
+  },
+  {
+    "wareName": "oladkkkkj",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 4500,
+    "sale": 7800,
+    "quantity": 60,
+    "id": null
+  },
+  {
+    "wareName": "boy",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 4500,
+    "sale": 7800,
+    "quantity": 60,
+    "id": null
+  },
+  {
+    "wareName": "girl",
+    "unit": "عدد",
+    "group": "new group",
+    "description": "nothing to say",
+    "cost": 4500,
+    "sale": 7800,
+    "quantity": 60,
+    "id": null
+  },
+  {
+    "wareName": "slave",
+    "unit": "عدد",
+    "group": "dewfsdf",
+    "description": "nothing to say",
+    "cost": 4500,
+    "sale": 7800,
+    "quantity": 60,
+    "id": "0ddbcb371dc0a47c1b37c7e5100a2f50"
+  },
+  {
+    "wareName": "window",
+    "unit": "عدد",
+    "group": "dewfsdf",
+    "description": "",
+    "cost": 8000,
+    "sale": 9500,
+    "quantity": 90,
+    "id": "a5ff855c5715ed65fafee0e4d46a792b"
+  },
+  {
+    "wareName": "door",
+    "unit": "کیلو",
+    "group": "domin",
+    "description": "",
+    "cost": 8000,
+    "sale": 9500,
+    "quantity": 90,
+    "id": "338c1b49290a0b6bfe79284d0a3f6cc7"
+  },
+  {
+    "wareName": "baby seat",
+    "unit": "متر مربع",
+    "group": "baby",
+    "description": "",
+    "cost": 1600,
+    "sale": 3400,
+    "quantity": 10,
+    "id": "11daa7db350fb16fdf63888a73260fe3"
   }
 ]

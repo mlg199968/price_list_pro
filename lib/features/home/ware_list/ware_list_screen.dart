@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/features/add/add_ware/ware_services.dart';
+import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/features/home/ware_list/panels/list_panel.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
 import 'package:provider/provider.dart';
@@ -113,11 +113,11 @@ class _WareListScreenState extends State<WareListScreen> {
                 future:wareServices.getWares(context),
                 builder:(context,snapshot) {
                    if(snapshot.connectionState==ConnectionState.waiting){
-                     return Expanded(child: Center(child: CircularProgressIndicator()));
+                     return const Expanded(child: Center(child: CircularProgressIndicator()));
                    }
 
                   else if(snapshot.data==null) {
-                     return  Expanded(child: Center(child: Text("No data")));
+                     return  const Expanded(child: Center(child: Text("No data")));
                    }
                      return ListPanel(
                       wareList: snapshot.data!,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:price_list_pro/features/home/customer_list/customer_info_panel.dart';
+import 'package:price_list_pro/features/home/customer_list/parts/customer_info_panel.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 import 'package:price_list_pro/model/customer.dart';
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/custom_button.dart';
 import 'package:price_list_pro/common/widgets/custom_textfield.dart';
-import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/features/add/add_customer/customer_services.dart';
-import 'package:price_list_pro/features/add/add_ware/ware_services.dart';
-import 'package:price_list_pro/provider/ware_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:price_list_pro/services/customer_services.dart';
+
+
 
 class AddCustomerScreen extends StatefulWidget {
   static const String id = "/addCustomerScreen";
@@ -46,7 +44,6 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final wareProvider = Provider.of<WareProvider>(context);
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(

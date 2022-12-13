@@ -19,6 +19,7 @@ class InfoPanel extends StatelessWidget {
           child: Column(
             children: <Widget>[
               infoPanelRow(title: "Ware",infoList: infoData.wareName),
+              infoPanelRow(title: "group",infoList: infoData.group),
               infoPanelRow(title: "unit",infoList: infoData.unit),
               infoPanelRow(title: "Cost",infoList: infoData.cost.toString()),
               infoPanelRow(title: "Sale",infoList: infoData.sale.toString()),

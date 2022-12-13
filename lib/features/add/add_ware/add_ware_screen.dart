@@ -3,7 +3,8 @@ import 'package:price_list_pro/common/widgets/custom_button.dart';
 import 'package:price_list_pro/common/widgets/custom_textfield.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/features/add/add_ware/ware_services.dart';
+import 'package:price_list_pro/features/add/add_ware/panels/create_group_panel.dart';
+import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class _AddWareScreenState extends State<AddWareScreen> {
   TextEditingController quantityController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-  String selectedValue = "default";
+
   String unitItem = unitList[0];
   WareServices wareServices = WareServices();
   void addWare() {
@@ -30,13 +31,14 @@ class _AddWareScreenState extends State<AddWareScreen> {
       context: context,
       wareName: wareNameController.text,
       unit: unitItem,
-      group: selectedValue,
+      group:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
       cost: double.parse(costPriceController.text),
       sale: double.parse(salePriceController.text),
       quantity: double.parse(quantityController.text),
       description: descriptionController.text
     );
   }
+
   @override
   void dispose() {
      wareNameController;
@@ -45,6 +47,9 @@ class _AddWareScreenState extends State<AddWareScreen> {
      quantityController;
      descriptionController;
     super.dispose();
+  }
+  void updateUINotifier(){
+    setState(() {});
   }
 
   @override
@@ -72,11 +77,14 @@ class _AddWareScreenState extends State<AddWareScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CustomButton(text: "Add Group", onPressed: () {}),
+                      CustomButton(text: "Add Group", onPressed: () {
+                        showDialog(context: context, builder: (context)=>CreateGroupPanel(updateUINotifier));
+
+                      }),
                       DropListModel(
-                          listItem: wareProvider.groupList,
+                          listItem: wareProvider.groupList.reversed.toList(),
                           onChanged: (value) {
-                            selectedValue=value;
+                            wareProvider.selectedGroup=value;
                           },),
 
                     ],
@@ -96,6 +104,7 @@ class _AddWareScreenState extends State<AddWareScreen> {
                       DropListModel(
                           listItem: unitList,
                           onChanged: (val) {
+                            unitItem=val;
                           },),
 
                       Text(

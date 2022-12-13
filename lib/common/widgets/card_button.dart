@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
@@ -36,7 +35,7 @@ class CardButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5)),
           alignment: Alignment.center,
           child:Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             alignment: Alignment.bottomLeft,
             decoration: BoxDecoration(gradient:kCardGradiant),
             child: Text(

@@ -73,4 +73,29 @@ class WareServices {
 
     return wareList;
   }
+
+  Future<List<String>> getWaresGroup(BuildContext context) async {
+    final List<String> wareList = [];
+    http.Response res = await http.get(
+      Uri.parse("$uri/ware/get-wares"),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; ++i) {
+            wareList.add(
+              Ware.fromJson(
+                jsonEncode(jsonDecode(res.body)[i]),
+              ).group,
+            );
+          }
+        });
+
+    return wareList.toSet().toList();
+  }
 }

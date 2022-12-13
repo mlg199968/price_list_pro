@@ -13,15 +13,12 @@ void httpErrorHandle({
   switch(response.statusCode){
     case 500:
       showSnackBar(context, jsonDecode(response.body)['error']);
-      print("error handling part");
       break;
     case 400:
       showSnackBar(context, jsonDecode(response.body)['msg']);
-      print("error handling part");
       break;
       case 401:
       showSnackBar(context, jsonDecode(response.body)['msg']);
-      print("ware with same name exist!");
       break;
     case 200:
       onSuccess();

@@ -6,6 +6,7 @@ class Customer {
   final String nickName;
   final String phoneNumber;
   final String description;
+  final String? id;
 
   Customer({
     required this.firstName,
@@ -13,6 +14,7 @@ class Customer {
     required this.nickName,
     required this.phoneNumber,
     required this.description,
+    this.id,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class Customer {
       'nickName': nickName,
       'phoneNumber': phoneNumber,
       'description': description,
+      'id':id,
     };
   }
 
@@ -32,6 +35,7 @@ class Customer {
       nickName: map['nickName'] as String,
       phoneNumber: map['phoneNumber'] as String,
       description: map['description'] as String,
+      id: map['id'] as String,
     );
   }
 String toJson()=>json.encode(toMap());

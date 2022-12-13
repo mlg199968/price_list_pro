@@ -1,4 +1,5 @@
 const express = require("express");
+const crypto = require("crypto");
 const wareRouter = express.Router();
 const ware = require("../middlewars/ware");
 const saver = require("../saver/saver.js");
@@ -6,8 +7,13 @@ const saver = require("../saver/saver.js");
 //Post ware on db
 wareRouter.post("/user/ware/post", ware, async (req, res) => {
     try {
-        const { wareName, unit, group, description, cost, sale, quantity, id } = req.body;
-        await saver.saveToJson(req.body,"./db/user/wares.json");
+        var { wareName, unit, group, description, cost, sale, quantity, id } = req.body;
+
+       var _id=crypto.randomBytes(16).toString("hex");
+        await saver.saveToJson(
+            {wareName, unit, group, description, cost, sale, quantity, id:_id },
+             "./db/user/wares.json");
+
         res.json({ id });
     } catch (e) {
         res.status(500).json({ "error": e });

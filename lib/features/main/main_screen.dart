@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/add/add_screen.dart';
 import 'package:price_list_pro/features/auth/signin_screen.dart';
-import 'package:price_list_pro/features/home/home_Screen.dart';
+import 'package:price_list_pro/features/home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const String id = "/mainScreen";

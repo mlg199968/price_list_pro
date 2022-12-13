@@ -4,6 +4,7 @@ import 'package:price_list_pro/common/widgets/custom_textfield.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/auth/signin_screen.dart';
 
+// ignore: must_be_immutable
 class SignUpScreen extends StatelessWidget {
   static const String id = "/signUpScreen";
   SignUpScreen({Key? key}) : super(key: key);

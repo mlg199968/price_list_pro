@@ -22,6 +22,7 @@ class CustomerInfoPanel extends StatelessWidget {
               CustomerInfoPanelRow(title: "Nick Name",infoList: infoData.nickName),
               CustomerInfoPanelRow(title: "Phone Number",infoList: infoData.phoneNumber),
               CustomerInfoPanelRow(title: "Description",infoList: infoData.description),
+              CustomerInfoPanelRow(title: "Id",infoList: infoData.id!),
 
               const SizedBox(height: 20,),
               Container(

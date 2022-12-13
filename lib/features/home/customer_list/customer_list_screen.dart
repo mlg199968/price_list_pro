@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/features/add/add_customer/customer_services.dart';
 import 'package:price_list_pro/features/home/customer_list/parts/customer_list_part.dart';
+import 'package:price_list_pro/services/customer_services.dart';
 
 
 class CustomerListScreen extends StatefulWidget {
@@ -64,9 +64,12 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: TextField(
+
                     controller: searchCustomerController,
-                    onTap: (){},
+                    onChanged: (val){},
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
                       hintText: "Search customer",
                       suffixIcon: const Icon(Icons.search_outlined),
                       enabledBorder: OutlineInputBorder(

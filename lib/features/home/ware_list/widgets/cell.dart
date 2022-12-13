@@ -2,12 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:price_list_pro/features/home/ware_list/panels/info_panel.dart';
-import 'package:price_list_pro/model/ware.dart';
+
 
 // ignore: must_be_immutable
 class CellContent extends StatelessWidget {
-  CellContent({
+  CellContent({super.key,
     required this.cell,
     required this.holderFlex,
     required this.onTapWidget

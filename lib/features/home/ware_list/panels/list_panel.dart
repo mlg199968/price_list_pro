@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:price_list_pro/features/add/add_ware/ware_services.dart';
 import 'package:price_list_pro/features/home/ware_list/panels/info_panel.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 import 'package:price_list_pro/model/ware.dart';
-import 'package:price_list_pro/provider/ware_provider.dart';
-import 'package:provider/provider.dart';
 class ListPanel extends StatelessWidget {
   const ListPanel({Key? key,required this.category,required this.wareList}) : super(key: key);
   final String category;
@@ -13,7 +10,6 @@ class ListPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupList=Provider.of<WareProvider>(context,listen: false).groupList;
     return Expanded(
       child: ListView.builder(
           itemCount: wareList.length,
