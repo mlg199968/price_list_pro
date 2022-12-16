@@ -55,18 +55,20 @@ class CustomerServices {
           response: res,
           context: context,
           onSuccess: () {
-            for (int i = 0; i < jsonDecode(res.body).length; i++) {
-              customerList.add(
+
+            for (int i = 0; i < jsonDecode(res.body).length; i++){
+               customerList.add(
                 Customer.fromJson(
                   jsonEncode(jsonDecode(res.body)[i]),
                 ),
               );
+
             }
           });
     } catch (e) {
       showSnackBar(context, "getCustomers List error $e");
-      rethrow;
     }
+
     return customerList;
   }
 }

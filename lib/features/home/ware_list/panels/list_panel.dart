@@ -15,23 +15,43 @@ class ListPanel extends StatelessWidget {
           itemCount: wareList.length,
           itemBuilder: (context,index){
             if(category==wareList[index].group) {
-              return Row(
-                children: [
-                  CellContent(
-                      cell:wareList[index].sale.toString(), holderFlex:4,onTapWidget: InfoPanel(wareList[index]),),
-                  CellContent(cell:wareList[index].unit, holderFlex:2,onTapWidget: InfoPanel(wareList[index]),),
-                  CellContent(cell:wareList[index].wareName, holderFlex:8,onTapWidget: InfoPanel(wareList[index]),),
-                ],
+              return GestureDetector(
+                onTap: (){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return InfoPanel(wareList[index]);
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    CellContent(
+                        cell:wareList[index].sale.toString(), holderFlex:4),
+                    CellContent(cell:wareList[index].unit, holderFlex:2),
+                    CellContent(cell:wareList[index].wareName, holderFlex:8),
+                  ],
+                ),
               );
             }
             else if(category=="all"){
-              return Row(
-                children: [
-                  CellContent(
-                    cell:wareList[index].sale.toString(), holderFlex:4,onTapWidget: InfoPanel(wareList[index]),),
-                  CellContent(cell:wareList[index].unit, holderFlex:2,onTapWidget: InfoPanel(wareList[index]),),
-                  CellContent(cell:wareList[index].wareName, holderFlex:8,onTapWidget: InfoPanel(wareList[index]),),
-                ],
+              return GestureDetector(
+                onTap: (){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return InfoPanel(wareList[index]);
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    CellContent(
+                      cell:wareList[index].sale.toString(), holderFlex:4),
+                    CellContent(cell:wareList[index].unit, holderFlex:2),
+                    CellContent(cell:wareList[index].wareName, holderFlex:8),
+                  ],
+                ),
               );
             }
             return const SizedBox();

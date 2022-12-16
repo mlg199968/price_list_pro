@@ -9,11 +9,13 @@ class CellContent extends StatelessWidget {
   CellContent({super.key,
     required this.cell,
     required this.holderFlex,
-    required this.onTapWidget
+    this.onTap,
+
   });
   int holderFlex=1;
   String cell;
-  final Widget onTapWidget;
+  final VoidCallback? onTap;
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +25,7 @@ class CellContent extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
-          onTap: (){
-            // Provider.of<FinalList>(context,listen: false).removeFromList(cells);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return onTapWidget;
-
-              },
-            );
-          },
+          onTap: onTap,
           child: Container(
             height: 50,
             padding: const EdgeInsets.all(10),

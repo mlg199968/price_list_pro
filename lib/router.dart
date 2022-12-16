@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:price_list_pro/features/add/add_bill/add_bill.dart';
+import 'package:price_list_pro/features/add/add_bill/screens/customer_select_screen.dart';
 import 'package:price_list_pro/features/add/add_customer/add_customer_screen.dart';
 import 'package:price_list_pro/features/add/add_ware/add_ware_screen.dart';
 
@@ -25,6 +27,10 @@ Route generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_)=> const AddCustomerScreen());
       case CustomerListScreen.id:
       return MaterialPageRoute(builder: (_)=> const CustomerListScreen());
+      case AddBill.id:
+      return MaterialPageRoute(builder: (_)=> const AddBill());
+      case CustomerSelectScreen.id:
+      return MaterialPageRoute(builder: (_)=> const CustomerSelectScreen());
 
       case WareListScreen.id:
       return MaterialPageRoute(builder: (_)=> const WareListScreen());
