@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:price_list_pro/common/widgets/custom_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/features/add/add_bill/panels/ware_to_bill_panel.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/customer_select_screen.dart';
+import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 
 class AddBill extends StatefulWidget {
   static const String id = "/AddBill";
@@ -11,6 +14,7 @@ class AddBill extends StatefulWidget {
 }
 
 class _AddBillState extends State<AddBill> {
+  List<Map<String,dynamic>> wareData=[];
   String customerName = "Customer";
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,9 @@ class _AddBillState extends State<AddBill> {
                   onTap: () {
                     Navigator.pushNamed(context, CustomerSelectScreen.id)
                         .then((value) {
-                      customerName = value.toString();
+                          if(value!=null) {
+                            customerName = value.toString();
+                          }
                       setState(() {});
                     });
                   },
@@ -75,12 +81,36 @@ class _AddBillState extends State<AddBill> {
               height: 20,
             ),
             Expanded(
-              child: Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(border: Border.all(color: kColor1)),
-                child: const Icon(Icons.add_box_outlined),
+              child: GestureDetector(
+                onTap: (){
+                  showDialog(context: context, builder: (context)=>WareToBillPanel()).then((value) {
+                    wareData.add(value);
+                    setState(() {});
+                  });
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(border: Border.all(color: kColor1)),
+                  child:wareData.isEmpty
+                      ? const Icon(Icons.add,size: 50,color: Colors.grey,)
+                      :ListView.builder(
+                    itemCount: wareData.length,
+                      itemBuilder: (context,index){
+                      return Row(
+                        children: [
+                          CellContent(cell: wareData[index]["name"]!, holderFlex: 3),
+                          CellContent(cell: wareData[index]["sale"]!, holderFlex: 3),
+                          CellContent(cell: wareData[index]["unit"]!, holderFlex: 3),
+                          CellContent(cell: wareData[index]["quantity"]!, holderFlex: 3),
+                        ],
+                      );
+                      }),
+
+                ),
               ),
-            )
+            ),
+            SizedBox(height: 10,),
+            CustomButton(text: "Publish", onPressed: (){}),
           ],
         ),
       ),

@@ -2,15 +2,20 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 
-
 // ignore: must_be_immutable
 class DropListModel extends StatefulWidget {
-   const DropListModel(
-      {super.key, required this.listItem,
-      required this.onChanged,});
+  const DropListModel({
+    super.key,
+    required this.listItem,
+    required this.onChanged,
+    this.width=140,
+    this.height=50,
+  });
 
   final List listItem;
   final Function onChanged;
+  final double width;
+  final double height;
 
   @override
   State<DropListModel> createState() => _DropListModelState();
@@ -22,6 +27,8 @@ class _DropListModelState extends State<DropListModel> {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
+
+        dropdownWidth: widget.width,
         alignment: Alignment.centerRight,
         scrollbarRadius: const Radius.circular(5),
         buttonDecoration: BoxDecoration(
@@ -46,16 +53,16 @@ class _DropListModelState extends State<DropListModel> {
                 ))
             .toList(),
         value: selectedValue ?? widget.listItem[0],
-        onChanged:(val){
-          selectedValue=val.toString();
+        onChanged: (val) {
+          selectedValue = val.toString();
           widget.onChanged(val);
           setState(() {});
         },
-          //widget.onChanged,
+        //widget.onChanged,
 
-        buttonHeight: 50,
-        buttonWidth: 140,
-        itemHeight: 40,
+        buttonHeight: widget.height,
+        buttonWidth: widget.width,
+        itemHeight: widget.height,
       ),
     );
   }
