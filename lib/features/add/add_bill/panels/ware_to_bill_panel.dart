@@ -3,8 +3,8 @@ import 'package:price_list_pro/common/widgets/custom_button.dart';
 import 'package:price_list_pro/common/widgets/custom_textfield.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/constants/utils.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/ware_select_screen.dart';
-
 
 class WareToBillPanel extends StatefulWidget {
   WareToBillPanel({Key? key}) : super(key: key);
@@ -15,30 +15,29 @@ class WareToBillPanel extends StatefulWidget {
 
 class _WareToBillPanelState extends State<WareToBillPanel> {
   TextEditingController wareNameController = TextEditingController();
-
   TextEditingController salePriceController = TextEditingController();
-
   TextEditingController quantityController = TextEditingController();
 
-  String unitItem =unitList[0];
-
+  String unitItem = unitList[0];
 
   void getWareData(ware) {
     wareNameController.text = ware.wareName;
     salePriceController.text = ware.sale.toString();
     quantityController.text = 1.toString();
     unitItem = ware.unit;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    List newUnitList=[unitItem,...unitList].toSet().toList();
+    List newUnitList = [unitItem, ...unitList].toSet().toList();
     return AlertDialog(
       backgroundColor: Colors.white.withOpacity(.5),
-      title: const Center(child: Text("Add Ware",style: TextStyle(color: kColorController),)),
+      title: const Center(
+          child: Text(
+        "Add Ware",
+        style: TextStyle(color: kColorController),
+      )),
       actions: [
         Container(
           padding: const EdgeInsets.all(10),
@@ -75,6 +74,7 @@ class _WareToBillPanelState extends State<WareToBillPanel> {
                 label: "Sale Price",
                 controller: salePriceController,
                 width: MediaQuery.of(context).size.width,
+                textFormat: TextFormatter.price,
               ),
               const SizedBox(
                 height: 10,
@@ -85,26 +85,35 @@ class _WareToBillPanelState extends State<WareToBillPanel> {
                   CustomTextField(
                     label: "Quantity",
                     controller: quantityController,
+                    textFormat: TextFormatter.number,
                   ),
                   DropListModel(
-                      listItem:newUnitList,
+                      listItem: newUnitList,
                       width: 110,
                       onChanged: (value) {
-                        unitItem=value;
+                        unitItem = value;
                       })
                 ],
               ),
-              const SizedBox(height: 20,),
-              CustomButton(text: "Add to Bill", onPressed: (){
-                Map<String,dynamic> data= {
-                  "name":wareNameController.text,
-                  "sale":salePriceController.text,
-                  "quantity":quantityController.text,
-                  "unit":unitItem
-                };
-                Navigator.pop(context,data);
-
-              }),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomButton(
+                  text: "Add to Bill",
+                  onPressed: () {
+                    if (wareNameController.text.isNotEmpty) {
+                      Map<String, dynamic> data = {
+                        "name": wareNameController.text,
+                        "sale": salePriceController.text,
+                        "quantity": quantityController.text,
+                        "unit": unitItem,
+                        "sum": addSeparator(
+                            StringToDouble(salePriceController.text) *
+                                double.parse(quantityController.text),),
+                      };
+                      Navigator.pop(context, data);
+                    }
+                  }),
             ],
           ),
         )

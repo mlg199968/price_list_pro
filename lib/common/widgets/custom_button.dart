@@ -10,7 +10,8 @@ class CustomButton extends StatelessWidget {
       this.height = 50})
       : super(key: key);
   final String text;
-  final VoidCallback onPressed;
+  // ignore: prefer_typing_uninitialized_variables
+  final  onPressed;
   final double width;
   final double height;
   @override

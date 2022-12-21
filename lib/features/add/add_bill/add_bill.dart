@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/custom_button.dart';
+import 'package:price_list_pro/common/widgets/custom_float_action_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/add/add_bill/panels/ware_to_bill_panel.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/customer_select_screen.dart';
@@ -14,11 +15,31 @@ class AddBill extends StatefulWidget {
 }
 
 class _AddBillState extends State<AddBill> {
-  List<Map<String,dynamic>> wareData=[];
+  List<Map<String, dynamic>> wareData = [];
   String customerName = "Customer";
+  bool isShow=false;
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation:CustomFabLoc(),
+      floatingActionButton:CustomFloatActionButton(
+        onPressed: (){
+          showDialog(
+              context: context,
+              builder: (context) => WareToBillPanel()).then((value) {
+            if(value!=null) {
+              wareData.add(value);
+            }
+            setState(() {});
+          });
+        },
+      ),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(gradient: kMainGradiant),
@@ -56,9 +77,9 @@ class _AddBillState extends State<AddBill> {
                   onTap: () {
                     Navigator.pushNamed(context, CustomerSelectScreen.id)
                         .then((value) {
-                          if(value!=null) {
-                            customerName = value.toString();
-                          }
+                      if (value != null) {
+                        customerName = value.toString();
+                      }
                       setState(() {});
                     });
                   },
@@ -81,36 +102,49 @@ class _AddBillState extends State<AddBill> {
               height: 20,
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: (){
-                  showDialog(context: context, builder: (context)=>WareToBillPanel()).then((value) {
-                    wareData.add(value);
-                    setState(() {});
-                  });
-                },
-                child: Container(
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(border: Border.all(color: kColor1)),
-                  child:wareData.isEmpty
-                      ? const Icon(Icons.add,size: 50,color: Colors.grey,)
-                      :ListView.builder(
-                    itemCount: wareData.length,
-                      itemBuilder: (context,index){
-                      return Row(
-                        children: [
-                          CellContent(cell: wareData[index]["name"]!, holderFlex: 3),
-                          CellContent(cell: wareData[index]["sale"]!, holderFlex: 3),
-                          CellContent(cell: wareData[index]["unit"]!, holderFlex: 3),
-                          CellContent(cell: wareData[index]["quantity"]!, holderFlex: 3),
-                        ],
-                      );
-                      }),
+              child: Container(
+                width: double.maxFinite,
+                decoration: BoxDecoration(border: Border.all(color: kColor1)),
+                child: wareData.isEmpty
+                    ? const Center(child: Text("Nothing yet"))
+                    : ListView.builder(
+                        itemCount: wareData.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap:(){
 
-                ),
+                            },
+
+                            child: Row(
+                              children: [
+                                CellContent(
+                                    cell: wareData[index]["sum"]!.toString(),
+                                    holderFlex: 10,
+                                align: TextAlign.left,),
+                                CellContent(
+                                    cell: wareData[index]["sale"]!,
+                                    holderFlex: 7,
+                                  maxSize: 17,),
+                                CellContent(
+                                    cell: wareData[index]["unit"]!,
+                                    holderFlex: 6,
+                                maxSize: 15,),
+                                CellContent(
+                                    cell: wareData[index]["quantity"]!,
+                                    holderFlex: 4,maxSize: 15,),
+                                CellContent(
+                                    cell: wareData[index]["name"]!,
+                                    holderFlex: 10),
+                              ],
+                            ),
+                          );
+                        }),
               ),
             ),
-            SizedBox(height: 10,),
-            CustomButton(text: "Publish", onPressed: (){}),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButton(text: "Publish", onPressed: () {}),
           ],
         ),
       ),
