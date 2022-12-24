@@ -27,14 +27,8 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
-        onChanged:(val){
-          if(val==null) {
-            onChange(val);
-          }
-        },
+        onChanged:onChange,
         validator: (val){
-          if(val==null){
-          }
         },
         keyboardType:
             (textFormat == TextFormatter.number || textFormat==TextFormatter.price) ? TextInputType.number : null,

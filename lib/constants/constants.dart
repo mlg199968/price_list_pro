@@ -6,6 +6,7 @@ const String uri = 'http://192.168.1.3:3000';
 const kMainGradiant = LinearGradient(
   colors: [Colors.deepPurple, Colors.blueAccent],
 );
+
 var kCardGradiant = const LinearGradient(
   begin: Alignment.bottomCenter,
   end: Alignment.topRight,
@@ -16,6 +17,10 @@ const kWhiteColor=Colors.white;
 const kColor1=Colors.deepPurple;
 const List<String> unitList=['عدد','متر','کیلو','متر مربع','متر مکعب','گرم'];
 const kSpaceBetween=20.0;
+
+final kBoxDecoration=BoxDecoration(
+    borderRadius: BorderRadius.circular(5),
+    border: Border.all(color: Colors.blue));
 
 
 

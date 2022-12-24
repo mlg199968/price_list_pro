@@ -8,12 +8,12 @@ void showSnackBar(BuildContext context, String text) {
     ),
   );
 }
-double StringToDouble(String text){
-  return double.parse(text.replaceAll(RegExp(r'[^0-9]'),''));
+num StringToDouble(String text){
+  return double.parse(text.replaceAll(RegExp(r'[^0-9]'),'')).truncateToDouble();
 
 }
 
-String addSeparator(double number){
+String addSeparator(num number){
    return NumberFormat('###,###,###,###').format(number);
 }
 

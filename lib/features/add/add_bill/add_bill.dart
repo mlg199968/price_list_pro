@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:price_list_pro/common/widgets/custom_button.dart';
 import 'package:price_list_pro/common/widgets/custom_float_action_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/constants/utils.dart';
 import 'package:price_list_pro/features/add/add_bill/panels/ware_to_bill_panel.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/customer_select_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
+import 'package:price_list_pro/model/bill_ware.dart';
+import 'package:price_list_pro/model/customer.dart';
+import 'package:price_list_pro/services/bill_services.dart';
 
 class AddBill extends StatefulWidget {
   static const String id = "/AddBill";
@@ -15,26 +20,32 @@ class AddBill extends StatefulWidget {
 }
 
 class _AddBillState extends State<AddBill> {
-  List<Map<String, dynamic>> wareData = [];
-  String customerName = "Customer";
-  bool isShow=false;
-
-
-
-
+  List<BillWare> wareData = [];
+  Customer? customer;
+  String customerName="Choose";
+  bool isShow = false;
+  double sum = 0;
+  String formattedDate =
+      DateFormat('kk:mm:ss  y/ MM/ dd').format(DateTime.now());
+  BillServices billServices=BillServices();
+  void postBill(BuildContext context)async{
+    if(customer!=null) {
+      await billServices.PostBill(context: context, billWares: wareData, customer: customer!, total: sum, time: DateTime.now());
+    }
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation:CustomFabLoc(),
-      floatingActionButton:CustomFloatActionButton(
-        onPressed: (){
-          showDialog(
-              context: context,
-              builder: (context) => WareToBillPanel()).then((value) {
-            if(value!=null) {
+      floatingActionButtonLocation: CustomFabLoc(),
+      floatingActionButton: CustomFloatActionButton(
+        onPressed: () {
+          showDialog(context: context, builder: (context) => WareToBillPanel())
+              .then((value) {
+            if (value != null) {
               wareData.add(value);
+              sum += value.sum;
             }
             setState(() {});
           });
@@ -47,19 +58,18 @@ class _AddBillState extends State<AddBill> {
         title: const Text("Add Bill"),
       ),
       body: Container(
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             //TODO: Time & Date Part
             Container(
               height: MediaQuery.of(context).size.height * .05,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  gradient: kMainGradiant,
-                  borderRadius: BorderRadius.circular(5)),
-              child: const Text(
-                "date & Time",
-                style: TextStyle(color: Colors.white),
+              decoration: kBoxDecoration,
+              child: Text(
+                formattedDate,
+                style: kCellStyle,
               ),
             ),
             const SizedBox(
@@ -76,9 +86,10 @@ class _AddBillState extends State<AddBill> {
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, CustomerSelectScreen.id)
-                        .then((value) {
+                        .then((dynamic value) {
                       if (value != null) {
-                        customerName = value.toString();
+                        customer=value;
+
                       }
                       setState(() {});
                     });
@@ -87,11 +98,9 @@ class _AddBillState extends State<AddBill> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.lightBlue)),
+                    decoration: kBoxDecoration,
                     child: Text(
-                      customerName,
+                      customer!=null ? "${customer!.firstName} ${customer!.lastName}": "Choose",
                       style: const TextStyle(fontSize: 20),
                     ),
                   ),
@@ -101,50 +110,80 @@ class _AddBillState extends State<AddBill> {
             const SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(border: Border.all(color: kColor1)),
-                child: wareData.isEmpty
-                    ? const Center(child: Text("Nothing yet"))
-                    : ListView.builder(
-                        itemCount: wareData.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap:(){
-
-                            },
-
-                            child: Row(
-                              children: [
-                                CellContent(
-                                    cell: wareData[index]["sum"]!.toString(),
-                                    holderFlex: 10,
-                                align: TextAlign.left,),
-                                CellContent(
-                                    cell: wareData[index]["sale"]!,
-                                    holderFlex: 7,
-                                  maxSize: 17,),
-                                CellContent(
-                                    cell: wareData[index]["unit"]!,
-                                    holderFlex: 6,
-                                maxSize: 15,),
-                                CellContent(
-                                    cell: wareData[index]["quantity"]!,
-                                    holderFlex: 4,maxSize: 15,),
-                                CellContent(
-                                    cell: wareData[index]["name"]!,
-                                    holderFlex: 10),
-                              ],
-                            ),
-                          );
-                        }),
+            //TODO:  Product List Part
+            Container(
+              height: MediaQuery.of(context).size.height * .5,
+              width: double.maxFinite,
+              decoration: kBoxDecoration,
+              child: wareData.isEmpty
+                  ? const Center(child: Text("Nothing yet"))
+                  : ListView.builder(
+                      itemCount: wareData.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              CellContent(
+                                cell: addSeparator(wareData[index].sum),
+                                holderFlex: 10,
+                                align: TextAlign.left,
+                              ),
+                              CellContent(
+                                cell: wareData[index].sale.toString(),
+                                holderFlex: 7,
+                                maxSize: 17,
+                              ),
+                              CellContent(
+                                cell: wareData[index].unit,
+                                holderFlex: 6,
+                                maxSize: 15,
+                              ),
+                              CellContent(
+                                cell: wareData[index].quantity.toString(),
+                                holderFlex: 4,
+                                maxSize: 15,
+                              ),
+                              CellContent(
+                                  cell: wareData[index].wareName,
+                                  holderFlex: 10),
+                            ],
+                          ),
+                        );
+                      }),
+            ),
+            const SizedBox(height: 10),
+            //TODO: final data of bill like sale total
+            Container(
+              height: 50,
+              decoration: kBoxDecoration,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "total",
+                    style: kCellStyle,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(addSeparator(sum), style: kCellStyle),
+                ],
               ),
             ),
-            const SizedBox(
-              height: 10,
+            const SizedBox(height: 10),
+            Opacity(
+              opacity:customer==null || wareData.isEmpty? .3 :1.0,
+              child: CustomButton(
+                text: "Publish",
+                onPressed: () {
+                  if(customer != null || wareData.isNotEmpty) {
+                    postBill(context);
+                  }
+                  setState(() {});
+                },
+              ),
             ),
-            CustomButton(text: "Publish", onPressed: () {}),
           ],
         ),
       ),

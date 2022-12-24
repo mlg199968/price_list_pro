@@ -5,6 +5,7 @@ import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/constants/utils.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/ware_select_screen.dart';
+import 'package:price_list_pro/model/bill_ware.dart';
 
 class WareToBillPanel extends StatefulWidget {
   WareToBillPanel({Key? key}) : super(key: key);
@@ -102,16 +103,15 @@ class _WareToBillPanelState extends State<WareToBillPanel> {
                   text: "Add to Bill",
                   onPressed: () {
                     if (wareNameController.text.isNotEmpty) {
-                      Map<String, dynamic> data = {
-                        "name": wareNameController.text,
-                        "sale": salePriceController.text,
-                        "quantity": quantityController.text,
-                        "unit": unitItem,
-                        "sum": addSeparator(
-                            StringToDouble(salePriceController.text) *
-                                double.parse(quantityController.text),),
-                      };
-                      Navigator.pop(context, data);
+                      BillWare billWare = BillWare(
+                        wareName: wareNameController.text,
+                        unit: unitItem,
+                        sale: StringToDouble(salePriceController.text),
+                        quantity: double.parse(quantityController.text),
+                        sum: StringToDouble(salePriceController.text) *
+                            double.parse(quantityController.text),
+                      );
+                      Navigator.pop(context, billWare);
                     }
                   }),
             ],

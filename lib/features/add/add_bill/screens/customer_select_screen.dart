@@ -95,7 +95,8 @@ class _CustomerSelectScreenState extends State<CustomerSelectScreen> {
                               margin: const EdgeInsets.symmetric(horizontal: 10),
                               child: GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context,"${customerList[index].firstName} ${customerList[index].lastName}");
+                                   Customer customer=snapshot.data![index];
+                                  Navigator.pop(context,customer);
                                 },
                                 child: Row(
                                   children: [
