@@ -34,11 +34,6 @@ class _WareToBillPanelState extends State<WareToBillPanel> {
     List newUnitList = [unitItem, ...unitList].toSet().toList();
     return AlertDialog(
       backgroundColor: Colors.white.withOpacity(.5),
-      title: const Center(
-          child: Text(
-        "Add Ware",
-        style: TextStyle(color: kColorController),
-      )),
       actions: [
         Container(
           padding: const EdgeInsets.all(10),

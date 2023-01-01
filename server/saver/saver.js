@@ -19,7 +19,7 @@ saveToJson = (data,path) => {
             const convert = JSON.stringify(storageToJson, null, 2);
             fs.writeFile(path, convert, (err) => {
                 if (err) throw (e);
-                console.log("all set");
+                console.log(`stored at ${path}`);
             });
         }
         else {
@@ -43,5 +43,43 @@ readFromJson = (path) => {
     return storageToJson;
 }
 
+deleteFromJson=(path,id)=>{
+    var storage = fs.readFileSync(path);
+    var storageToJson = JSON.parse(storage);
+    var jsonfileAfterDelete=storageToJson.filter(function(obj){ if(obj.id != id) return obj });
+    const convert = JSON.stringify(jsonfileAfterDelete, null, 2);
+    fs.writeFile(path, convert, (err) => {
+        if (err) throw (err);
+        console.log(`id ${id} deleted From ${path}`);
+    });
+}
 
-module.exports = { saveToJson, readFromJson };
+updateJsonObject=(path,id,newObj)=>{
+try{
+    var storage = fs.readFileSync(path);
+    var storageToJson = JSON.parse(storage);
+    var jsonfileAfterDelete=storageToJson.filter((obj)=>{ 
+        if(obj.id == id){
+         obj.wareName=newObj.wareName;
+         obj.group=newObj.group;
+         obj.description=newObj.description;
+         obj.cost=newObj.cost;
+         obj.sale=newObj.sale;
+         obj.quantity=newObj.quantity;
+         obj.id=newObj.id;
+        }
+        return obj;
+         });
+    const convert = JSON.stringify(jsonfileAfterDelete, null, 2);
+    fs.writeFile(path, convert, (err) => {
+        if (err) throw (err);
+        console.log(`id ${id} updated in ${path}`);
+    });
+}catch(e){
+console.log("saver update error"+e);
+}
+}
+
+
+
+module.exports = { saveToJson, readFromJson ,deleteFromJson,updateJsonObject};

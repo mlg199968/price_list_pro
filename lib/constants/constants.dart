@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 
 const String uri = 'http://192.168.1.3:3000';
 
+
+
+
+
+
+
+const kBgColor=Colors.white70;
 const kMainGradiant = LinearGradient(
   colors: [Colors.deepPurple, Colors.blueAccent],
 );
@@ -19,6 +26,7 @@ const List<String> unitList=['عدد','متر','کیلو','متر مربع','م�
 const kSpaceBetween=20.0;
 
 final kBoxDecoration=BoxDecoration(
+  color: Colors.white,
     borderRadius: BorderRadius.circular(5),
     border: Border.all(color: Colors.blue));
 

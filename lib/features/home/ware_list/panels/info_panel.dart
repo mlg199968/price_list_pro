@@ -1,16 +1,18 @@
-// ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/model/ware.dart';
+import 'package:price_list_pro/features/home/ware_list/screens/edit_ware_screen.dart';
+import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
+import 'package:price_list_pro/services/ware_services.dart';
 
 
-// ignore: must_be_immutable
-class InfoPanel extends StatelessWidget {
-  InfoPanel(this.infoData, {super.key});
-  Ware infoData;
-  @override
-  Widget build(BuildContext context) {
+
+
+  InfoPanel({required BuildContext context,required wareInfo}){;
+
+  WareServices wareServices=WareServices();
+  void deleteWare(wareInfo)async{
+   await wareServices.deleteWare(context,wareInfo.id!);
+  }
     return AlertDialog(
       title: const Text('info Panel'),
       actions: [
@@ -18,14 +20,14 @@ class InfoPanel extends StatelessWidget {
           padding: const EdgeInsetsDirectional.all(15),
           child: Column(
             children: <Widget>[
-              infoPanelRow(title: "Ware",infoList: infoData.wareName),
-              infoPanelRow(title: "group",infoList: infoData.group),
-              infoPanelRow(title: "unit",infoList: infoData.unit),
-              infoPanelRow(title: "Cost",infoList: infoData.cost.toString()),
-              infoPanelRow(title: "Sale",infoList: infoData.sale.toString()),
-              infoPanelRow(title: "Quantity",infoList: infoData.quantity.toString()),
-              infoPanelRow(title: "Description",infoList: infoData.description),
-              infoPanelRow(title: "id",infoList: infoData.id.toString()),
+              infoPanelRow(title: "Ware",infoList:wareInfo.wareName),
+              infoPanelRow(title: "group",infoList:wareInfo.group),
+              infoPanelRow(title: "unit",infoList:wareInfo.unit),
+              infoPanelRow(title: "Cost",infoList:wareInfo.cost.toString()),
+              infoPanelRow(title: "Sale",infoList:wareInfo.sale.toString()),
+              infoPanelRow(title: "Quantity",infoList:wareInfo.quantity.toString()),
+              infoPanelRow(title: "Description",infoList:wareInfo.description),
+              infoPanelRow(title: "id",infoList:wareInfo.id.toString()),
 
 
               const SizedBox(height: 20,),
@@ -36,11 +38,17 @@ class InfoPanel extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                   GestureDetector(
-                    onTap:(){},
+                    onTap:(){
+                      deleteWare(wareInfo);
+                      Navigator.pop(context);
+                     // Navigator.pushNamedAndRemoveUntil(context,WareListScreen.id,(Route route)=>route.settings.name==WareListScreen.id);
+                    },
                     child: const Icon(Icons.delete,color: Colors.white70,),
                   ),
                   GestureDetector(
-                    onTap:(){},
+                    onTap:(){
+                      Navigator.pushNamed(context, EditWareScreen.id,arguments:wareInfo);
+                    },
                     child: const Icon(Icons.drive_file_rename_outline_sharp,color: Colors.white70,),
                   ),
 
@@ -52,18 +60,15 @@ class InfoPanel extends StatelessWidget {
       ],
     );
   }
-}
 
-class infoPanelRow extends StatelessWidget {
-  const infoPanelRow({super.key,
-    required this.infoList,required this.title
-  });
 
-  final String infoList;
-  final String title;
 
-  @override
-  Widget build(BuildContext context) {
+  infoPanelRow({required infoList,required title
+  }){
+
+
+
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -71,13 +76,13 @@ class infoPanelRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
        SizedBox(
-         width: MediaQuery.of(context).size.width *.35,
+         width:120,
            child: Text(infoList,maxLines: 2,overflow: TextOverflow.ellipsis,)),
        Text(title),
 
       ],),
     );
   }
-}
+
 
 

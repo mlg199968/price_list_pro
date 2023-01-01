@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/model/ware.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/features/home/ware_list/panels/list_panel.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
@@ -25,6 +26,7 @@ class _WareListScreenState extends State<WareListScreen> {
 
   @override
   Widget build(BuildContext context) {
+   final wareProvider=Provider.of<WareProvider>(context);
     return Scaffold(
       key: scaffoldKey,
       body: NestedScrollView(
@@ -112,19 +114,20 @@ class _WareListScreenState extends State<WareListScreen> {
               FutureBuilder(
                 future:wareServices.getWares(context),
                 builder:(context,snapshot) {
-                   if(snapshot.connectionState==ConnectionState.waiting){
-                     return const Expanded(child: Center(child: CircularProgressIndicator()));
-                   }
-
-                  else if(snapshot.data==null) {
+                  switch(snapshot.connectionState){
+                  case ConnectionState.waiting:
+                    return const Expanded(child: Center(child: CircularProgressIndicator()));
+                    case ConnectionState.none:
+                    return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  }
+                  if(snapshot.data==null) {
                      return  const Expanded(child: Center(child: Text("No data")));
                    }
+                  print(snapshot.data!.last.wareName);
                      return ListPanel(
+                       context: context,
                       wareList: snapshot.data!,
-                      category: selectedDropListGroup ??
-                          Provider
-                              .of<WareProvider>(context, listen: false)
-                              .groupList[0]);
+                      category: selectedDropListGroup ?? wareProvider.groupList[0]);
 
                 }
               ),

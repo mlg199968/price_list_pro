@@ -2,12 +2,12 @@
   {
     "wareName": "so he",
     "unit": "عدد",
-    "group": "dewfsdf",
+    "group": "default",
     "description": "so has an do to",
     "cost": 55555,
     "sale": 45566,
     "quantity": 4,
-    "id": null
+    "id": "gfg4f2g84y841631gdf6g519yr1h4rhr"
   },
   {
     "wareName": "holder",
@@ -17,27 +17,7 @@
     "cost": 55555,
     "sale": 45566,
     "quantity": 4,
-    "id": null
-  },
-  {
-    "wareName": "tools",
-    "unit": "عدد",
-    "group": "dewfsdf",
-    "description": "so has an do to",
-    "cost": 55555,
-    "sale": 45566,
-    "quantity": 4,
-    "id": null
-  },
-  {
-    "wareName": "New Product",
-    "unit": "عدد",
-    "group": "default",
-    "description": "to much text for testing the text holder in program",
-    "cost": 500000,
-    "sale": 60000,
-    "quantity": 50,
-    "id": null
+    "id": "hfd1hd9f2h4f9df56gdf156dfh4hgfg29h48h"
   },
   {
     "wareName": "zanbil",
@@ -47,106 +27,26 @@
     "cost": 24000,
     "sale": 30000,
     "quantity": 4,
-    "id": null
+    "id": "rtth4rhf8g6h487rgfd1g6df51gfhfg89h744"
   },
   {
     "wareName": "SubGround",
     "unit": "عدد",
-    "group": "new group",
+    "group": "ui",
     "description": "nothing to say",
     "cost": 12000,
     "sale": 30000,
     "quantity": 12,
-    "id": null
+    "id": "4ethe8r4ht3b1561h65fd1hfd65h1df6b49"
   },
   {
-    "wareName": "Subtitle",
+    "wareName": "window2",
     "unit": "عدد",
-    "group": "new group",
-    "description": "nothing to say",
-    "cost": 12000,
-    "sale": 30000,
-    "quantity": 12,
-    "id": null
-  },
-  {
-    "wareName": "olad",
-    "unit": "عدد",
-    "group": "new group",
-    "description": "nothing to say",
-    "cost": 4500,
-    "sale": 7800,
-    "quantity": 60,
-    "id": null
-  },
-  {
-    "wareName": "oladkkkkj",
-    "unit": "عدد",
-    "group": "new group",
-    "description": "nothing to say",
-    "cost": 4500,
-    "sale": 7800,
-    "quantity": 60,
-    "id": null
-  },
-  {
-    "wareName": "boy",
-    "unit": "عدد",
-    "group": "new group",
-    "description": "nothing to say",
-    "cost": 4500,
-    "sale": 7800,
-    "quantity": 60,
-    "id": null
-  },
-  {
-    "wareName": "girl",
-    "unit": "عدد",
-    "group": "new group",
-    "description": "nothing to say",
-    "cost": 4500,
-    "sale": 7800,
-    "quantity": 60,
-    "id": null
-  },
-  {
-    "wareName": "slave",
-    "unit": "عدد",
-    "group": "dewfsdf",
-    "description": "nothing to say",
-    "cost": 4500,
-    "sale": 7800,
-    "quantity": 60,
-    "id": "0ddbcb371dc0a47c1b37c7e5100a2f50"
-  },
-  {
-    "wareName": "window",
-    "unit": "عدد",
-    "group": "dewfsdf",
+    "group": "default",
     "description": "",
     "cost": 8000,
     "sale": 9500,
     "quantity": 90,
     "id": "a5ff855c5715ed65fafee0e4d46a792b"
-  },
-  {
-    "wareName": "door",
-    "unit": "کیلو",
-    "group": "domin",
-    "description": "",
-    "cost": 8000,
-    "sale": 9500,
-    "quantity": 90,
-    "id": "338c1b49290a0b6bfe79284d0a3f6cc7"
-  },
-  {
-    "wareName": "baby seat",
-    "unit": "متر مربع",
-    "group": "baby",
-    "description": "",
-    "cost": 1600,
-    "sale": 3400,
-    "quantity": 10,
-    "id": "11daa7db350fb16fdf63888a73260fe3"
   }
 ]

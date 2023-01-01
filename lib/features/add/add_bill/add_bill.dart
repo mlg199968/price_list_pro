@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:price_list_pro/common/widgets/custom_button.dart';
+import 'package:price_list_pro/common/widgets/custom_date_picker.dart';
 import 'package:price_list_pro/common/widgets/custom_float_action_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/constants/utils.dart';
@@ -20,17 +23,19 @@ class AddBill extends StatefulWidget {
 }
 
 class _AddBillState extends State<AddBill> {
-  List<BillWare> wareData = [];
+  List<BillWare> billWares = [];
   Customer? customer;
   String customerName="Choose";
   bool isShow = false;
   double sum = 0;
-  String formattedDate =
-      DateFormat('kk:mm:ss  y/ MM/ dd').format(DateTime.now());
+  String date =Jalali.now().formatCompactDate();
+  String time = DateFormat('kk:mm').format(DateTime.now());
+     // DateFormat('kk:mm:ss  y/ MM/ dd').format(DateTime.now());
+
   BillServices billServices=BillServices();
   void postBill(BuildContext context)async{
     if(customer!=null) {
-      await billServices.PostBill(context: context, billWares: wareData, customer: customer!, total: sum, time: DateTime.now());
+      await billServices.PostBill(context: context, billWares: billWares, customer: customer!, total: sum, time: DateTime.now());
     }
   }
 
@@ -44,7 +49,7 @@ class _AddBillState extends State<AddBill> {
           showDialog(context: context, builder: (context) => WareToBillPanel())
               .then((value) {
             if (value != null) {
-              wareData.add(value);
+              billWares.add(value);
               sum += value.sum;
             }
             setState(() {});
@@ -67,13 +72,109 @@ class _AddBillState extends State<AddBill> {
               height: MediaQuery.of(context).size.height * .05,
               alignment: Alignment.center,
               decoration: kBoxDecoration,
-              child: Text(
-                formattedDate,
-                style: kCellStyle,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+      ///choose date
+                  TextButton(
+                    onPressed: () async {
+                      Jalali? picked = await showPersianDatePicker(
+                        context: context,
+                        initialDate: Jalali.now(),
+                        firstDate: Jalali(1385, 8),
+                        lastDate: Jalali(1450, 9),
+
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          date = picked.formatCompactDate();
+                        });
+                      }
+                    },
+                    child: Text(
+                      date,
+                      style: kCellStyle.copyWith(color: Colors.blue),
+                    ),
+                  ),
+      ///choose time
+                  TextButton(
+                    onPressed: () async {
+                      Jalali? pickedDate = await showModalBottomSheet<Jalali>(
+                        context: context,
+                        builder: (context) {
+                          Jalali tempPickedDate=DateTime.now().toJalali();
+                          return SizedBox(
+                            height: 250,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CupertinoButton(
+                                        child: const Text(
+                                          'لغو',
+                                          style: TextStyle(
+                                            fontFamily: 'Dana',
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      CupertinoButton(
+                                        child: const Text(
+                                          'تایید',
+                                          style: TextStyle(
+                                            fontFamily: 'Dana',
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(tempPickedDate);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(
+                                  height: 0,
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                  child: CupertinoTheme(
+                                    data: const CupertinoThemeData(
+                                      textTheme: CupertinoTextThemeData(
+                                        dateTimePickerTextStyle: TextStyle(fontFamily: 'Dana'),
+                                      ),
+                                    ),
+                                    child: PCupertinoDatePicker(
+                                      mode: PCupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (Jalali dateTime) {
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          time = DateFormat("hh:mm").format(pickedDate.toDateTime());
+                        });
+                      }
+                    },
+                    child: Text(
+                      time,
+                      style: kCellStyle.copyWith(color: Colors.blue),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             //TODO: Choose Customer Part
             Row(
@@ -108,50 +209,53 @@ class _AddBillState extends State<AddBill> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             //TODO:  Product List Part
             Container(
-              height: MediaQuery.of(context).size.height * .5,
+              height: MediaQuery.of(context).size.height * .4,
               width: double.maxFinite,
               decoration: kBoxDecoration,
-              child: wareData.isEmpty
+              child: billWares.isEmpty
                   ? const Center(child: Text("Nothing yet"))
                   : ListView.builder(
-                      itemCount: wareData.length,
+                      itemCount: billWares.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {},
                           child: Row(
                             children: [
                               CellContent(
-                                cell: addSeparator(wareData[index].sum),
+                                cell: addSeparator(billWares[index].sum),
                                 holderFlex: 10,
                                 align: TextAlign.left,
                               ),
                               CellContent(
-                                cell: wareData[index].sale.toString(),
+                                cell: billWares[index].sale.toString(),
                                 holderFlex: 7,
                                 maxSize: 17,
                               ),
                               CellContent(
-                                cell: wareData[index].unit,
+                                cell: billWares[index].unit,
                                 holderFlex: 6,
                                 maxSize: 15,
                               ),
                               CellContent(
-                                cell: wareData[index].quantity.toString(),
+                                cell: billWares[index].quantity.toString(),
                                 holderFlex: 4,
                                 maxSize: 15,
                               ),
                               CellContent(
-                                  cell: wareData[index].wareName,
+                                  cell: billWares[index].wareName,
                                   holderFlex: 10),
                             ],
                           ),
                         );
                       }),
             ),
+            const SizedBox(height: 10),
+            //TODO:  paid List Part
+            ShoppingList(billWares: billWares),
             const SizedBox(height: 10),
             //TODO: final data of bill like sale total
             Container(
@@ -173,11 +277,11 @@ class _AddBillState extends State<AddBill> {
             ),
             const SizedBox(height: 10),
             Opacity(
-              opacity:customer==null || wareData.isEmpty? .3 :1.0,
+              opacity:customer==null || billWares.isEmpty? .3 :1.0,
               child: CustomButton(
                 text: "Publish",
                 onPressed: () {
-                  if(customer != null || wareData.isNotEmpty) {
+                  if(customer != null || billWares.isNotEmpty) {
                     postBill(context);
                   }
                   setState(() {});
@@ -187,6 +291,61 @@ class _AddBillState extends State<AddBill> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ShoppingList extends StatelessWidget {
+  const ShoppingList({
+    super.key,
+    required this.billWares,
+  });
+
+  final List<BillWare> billWares;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * .2,
+      width: double.maxFinite,
+      decoration: kBoxDecoration,
+      child: billWares.isEmpty
+          ? const Center(child: Text("Nothing yet"))
+          : ListView.builder(
+          itemCount: billWares.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {},
+              child: Row(
+                children: [
+                  CellContent(
+                    cell: addSeparator(billWares[index].sum),
+                    holderFlex: 10,
+                    align: TextAlign.left,
+                  ),
+                  CellContent(
+                    cell: billWares[index].sale.toString(),
+                    holderFlex: 7,
+                    maxSize: 17,
+                  ),
+                  CellContent(
+                    cell: billWares[index].unit,
+                    holderFlex: 6,
+                    maxSize: 15,
+                  ),
+                  CellContent(
+                    cell: billWares[index].quantity.toString(),
+                    holderFlex: 4,
+                    maxSize: 15,
+                  ),
+                  CellContent(
+                      cell: billWares[index].wareName,
+                      holderFlex: 10),
+
+                ],
+              ),
+            );
+          }),
     );
   }
 }

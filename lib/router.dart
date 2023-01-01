@@ -9,8 +9,10 @@ import 'package:price_list_pro/features/auth/signin_screen.dart';
 import 'package:price_list_pro/features/auth/signup_screen.dart';
 import 'package:price_list_pro/features/home/customer_list/customer_list_screen.dart';
 import 'package:price_list_pro/features/home/home_screen.dart';
+import 'package:price_list_pro/features/home/ware_list/screens/edit_ware_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
 import 'package:price_list_pro/features/main/main_screen.dart';
+import 'package:price_list_pro/model/ware.dart';
 
 Route generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -38,9 +40,9 @@ Route generateRoute(RouteSettings routeSettings) {
       case WareListScreen.id:
       return MaterialPageRoute(builder: (_)=> const WareListScreen());
 
-    // case CategoryDealScreen.id:
-    //   String category=routeSettings.arguments as String;
-    //   return MaterialPageRoute(builder: (_) => CategoryDealScreen(categoryName: category,));
+    case EditWareScreen.id:
+      Ware wareInfo=routeSettings.arguments as Ware;
+      return MaterialPageRoute(builder: (_) => EditWareScreen(wareInfo: wareInfo,));
      default:
       return MaterialPageRoute(
           builder: (_) => const Scaffold(
