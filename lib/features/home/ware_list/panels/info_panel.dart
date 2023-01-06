@@ -1,17 +1,22 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/home/ware_list/screens/edit_ware_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
+import 'package:price_list_pro/model/sqflite_model/ware_sqflite.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 
 
 
 
-  InfoPanel({required BuildContext context,required wareInfo}){;
+  InfoPanel({required BuildContext context,required WareSqflite wareInfo}){
 
-  WareServices wareServices=WareServices();
+  //WareServices wareServices=WareServices();
   void deleteWare(wareInfo)async{
-   await wareServices.deleteWare(context,wareInfo.id!);
+    await WareDB.instance.delete(wareInfo.wareID);
+   //await wareServices.deleteWare(context,wareInfo.id!);
   }
     return AlertDialog(
       title: const Text('info Panel'),
@@ -21,13 +26,14 @@ import 'package:price_list_pro/services/ware_services.dart';
           child: Column(
             children: <Widget>[
               infoPanelRow(title: "Ware",infoList:wareInfo.wareName),
-              infoPanelRow(title: "group",infoList:wareInfo.group),
+              infoPanelRow(title: "groupName",infoList:wareInfo.groupName),
               infoPanelRow(title: "unit",infoList:wareInfo.unit),
               infoPanelRow(title: "Cost",infoList:wareInfo.cost.toString()),
               infoPanelRow(title: "Sale",infoList:wareInfo.sale.toString()),
               infoPanelRow(title: "Quantity",infoList:wareInfo.quantity.toString()),
               infoPanelRow(title: "Description",infoList:wareInfo.description),
-              infoPanelRow(title: "id",infoList:wareInfo.id.toString()),
+              infoPanelRow(title: "Description",infoList:wareInfo.date.toString()),
+              infoPanelRow(title: "id",infoList:wareInfo.wareID),
 
 
               const SizedBox(height: 20,),
@@ -40,8 +46,8 @@ import 'package:price_list_pro/services/ware_services.dart';
                   GestureDetector(
                     onTap:(){
                       deleteWare(wareInfo);
-                      Navigator.pop(context);
-                     // Navigator.pushNamedAndRemoveUntil(context,WareListScreen.id,(Route route)=>route.settings.name==WareListScreen.id);
+
+                      Navigator.pushNamedAndRemoveUntil(context,WareListScreen.id,(Route route)=>route.settings.name==WareListScreen.id);
                     },
                     child: const Icon(Icons.delete,color: Colors.white70,),
                   ),

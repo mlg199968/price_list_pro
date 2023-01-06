@@ -6,12 +6,13 @@ import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 ListPanel(
     {required BuildContext context,
     required String category,
-    required wareList}) {
+    required wareList,
+    }) {
   return Expanded(
     child: ListView.builder(
         itemCount: wareList.length,
         itemBuilder: (context, index) {
-          if (category == wareList[index].group) {
+          if (category == wareList[index].groupName) {
             return GestureDetector(
               onTap: () {
                 showDialog(

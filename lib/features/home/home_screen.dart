@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/card_button.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/features/home/customer_list/customer_list_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
@@ -19,13 +20,17 @@ class _HomeScreenState extends State<HomeScreen> {
   WareServices wareServices = WareServices();
   @override
   void initState() {
-    getWaresCategory();
+    //getLocalGroupList();
+    //getWaresCategory();
     super.initState();
   }
 
   void getWaresCategory() async {
     Provider.of<WareProvider>(context, listen: false).groupList =
         await wareServices.getWaresGroup(context);
+  }
+  void getLocalGroupList() async {
+    Provider.of<WareProvider>(context,listen: false).groupList.add(await WareDB.instance.readAllGroupList());
   }
 
   @override

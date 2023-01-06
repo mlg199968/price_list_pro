@@ -7,11 +7,11 @@ const saver = require("../saver/saver.js");
 //Post ware on db
 wareRouter.post("/user/ware/post", ware, async (req, res) => {
     try {
-        var { wareName, unit, group, description, cost, sale, quantity, id } = req.body;
+        var { wareName, unit, groupName, description, cost, sale, quantity, id } = req.body;
 
        var _id=crypto.randomBytes(16).toString("hex");
         await saver.saveToJson(
-            {wareName, unit, group, description, cost, sale, quantity, id:_id },
+            {wareName, unit, groupName, description, cost, sale, quantity, id:_id },
              "./db/user/wares.json");
 
         res.json({ id });
@@ -43,8 +43,8 @@ console.log(e);
 //upadte ware
 wareRouter.post("/user/ware/update-ware",async (req,res)=>{
     try{
-        const {wareName,unit,sale,cost,group,description,quantity,id}=req.body;
-    saver.updateJsonObject("./db/user/wares.json",id,{wareName,unit,sale,cost,group,description,quantity,id});
+        const {wareName,unit,sale,cost,groupName,description,quantity,id}=req.body;
+    saver.updateJsonObject("./db/user/wares.json",id,{wareName,unit,sale,cost,groupName,description,quantity,id});
     res.json({msg:"update Successfully"});
     }catch(e){
     res.status(500).json({error:e});

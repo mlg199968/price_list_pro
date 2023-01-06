@@ -13,10 +13,11 @@ class WareProvider extends ChangeNotifier{
 
 
 
-void addGroup(String group){
-  groupList.add(group);
+void addGroup(String groupName){
+  groupList.add(groupName);
   notifyListeners();
 }
+
 
 // Future<List> getWares(BuildContext context)async{
 // List wares =await wareServices.getWares(context);

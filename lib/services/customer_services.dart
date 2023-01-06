@@ -23,6 +23,8 @@ class CustomerServices {
           nickName: nickName,
           phoneNumber: phoneNumber,
           description: description,
+          date: DateTime.now(),
+          score: 10,
           id: "");
 
       http.Response res = await http.post(Uri.parse("$uri/user/customers"),

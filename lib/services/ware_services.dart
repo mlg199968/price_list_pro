@@ -16,7 +16,7 @@ class WareServices {
     required BuildContext context,
     required String wareName,
     required String unit,
-    required String group,
+    required String groupName,
     String description = "",
     required double cost,
     required double sale,
@@ -26,11 +26,12 @@ class WareServices {
       Ware ware = Ware(
         wareName: wareName,
         unit: unit,
-        group: group,
+        groupName: groupName,
         description: description,
         cost: cost,
         sale: sale,
         quantity: quantity,
+        date: DateTime.now()
       );
       http.Response res = await http.post(
         Uri.parse("$uri/user/ware/post"),
@@ -94,7 +95,7 @@ class WareServices {
             wareList.add(
               Ware.fromJson(
                 jsonEncode(jsonDecode(res.body)[i]),
-              ).group,
+              ).groupName,
             );
           }
         });
@@ -124,7 +125,7 @@ class WareServices {
     required BuildContext context,
     required String wareName,
     required String unit,
-    required String group,
+    required String groupName,
     required String description,
     required double cost,
     required double sale,
@@ -135,12 +136,13 @@ class WareServices {
       Ware ware = Ware(
         wareName: wareName,
         unit: unit,
-        group: group,
+        groupName: groupName,
         description: description,
         cost: cost,
         sale: sale,
         quantity: quantity,
         id: id,
+        date: DateTime.now()
       );
       http.Response res = await http.post(
         Uri.parse("$uri/user/ware/update-ware"),

@@ -5,6 +5,8 @@ import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/add/add_ware/panels/create_group_panel.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
+import 'package:price_list_pro/model/sqflite_model/ware_sqflite.dart';
 import 'package:price_list_pro/model/ware.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
@@ -12,8 +14,8 @@ import 'package:provider/provider.dart';
 
 class EditWareScreen extends StatefulWidget {
   static const String id = "/editWareScreen";
-  const EditWareScreen({Key? key,required this.wareInfo}) : super(key: key);
-final Ware wareInfo;
+  const EditWareScreen({Key? key, required this.wareInfo}) : super(key: key);
+  final WareSqflite wareInfo;
   @override
   State<EditWareScreen> createState() => _EditWareScreenState();
 }
@@ -25,36 +27,58 @@ class _EditWareScreenState extends State<EditWareScreen> {
   TextEditingController quantityController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-
   String unitItem = unitList[0];
   WareServices wareServices = WareServices();
-  void updateWare() async{
-    await wareServices.updateWare(
-        context: context,
-        wareName: wareNameController.text,
-        unit: unitItem,
-        group:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
-        cost: double.parse(costPriceController.text),
-        sale: double.parse(salePriceController.text),
-        quantity: double.parse(quantityController.text),
-        description: descriptionController.text,
-        id: widget.wareInfo.id!,
+  // void updateWare() async{
+  //   await wareServices.updateWare(
+  //       context: context,
+  //       wareName: wareNameController.text,
+  //       unit: unitItem,
+  //       group:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
+  //       cost: double.parse(costPriceController.text),
+  //       sale: double.parse(salePriceController.text),
+  //       quantity: double.parse(quantityController.text),
+  //       description: descriptionController.text,
+  //       id: widget.wareInfo.id!,
+  //   );
+  // }
+  void updateWare() async {
+    WareSqflite wareSqflite = WareSqflite(
+      wareName: wareNameController.text,
+      unit: unitItem,
+      groupName:
+          Provider.of<WareProvider>(context, listen: false).selectedGroup,
+      cost: costPriceController.text.isEmpty
+          ? 0
+          : double.parse(costPriceController.text),
+      sale: salePriceController.text.isEmpty
+          ? 0
+          : double.parse(salePriceController.text),
+      quantity: quantityController.text.isEmpty
+          ? 1000
+          : double.parse(quantityController.text),
+      description:
+          descriptionController.text.isEmpty ? "" : descriptionController.text,
+      date: DateTime.now(),
+      wareID: widget.wareInfo.wareID,
     );
+    await WareDB.instance.update(wareSqflite);
   }
-  void oldInfo (){
-    wareNameController.text=widget.wareInfo.wareName;
-    costPriceController.text=widget.wareInfo.cost.toString();
-    salePriceController.text=widget.wareInfo.sale.toString();
-    quantityController.text=widget.wareInfo.quantity.toString();
-    descriptionController.text=widget.wareInfo.description;
-    unitItem=widget.wareInfo.unit;
+
+  void oldInfo() {
+    wareNameController.text = widget.wareInfo.wareName;
+    costPriceController.text = widget.wareInfo.cost.toString();
+    salePriceController.text = widget.wareInfo.sale.toString();
+    quantityController.text = widget.wareInfo.quantity.toString();
+    descriptionController.text = widget.wareInfo.description;
+    unitItem = widget.wareInfo.unit;
   }
+
   @override
   void initState() {
     oldInfo();
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -65,7 +89,8 @@ class _EditWareScreenState extends State<EditWareScreen> {
     descriptionController;
     super.dispose();
   }
-  void updateUINotifier(){
+
+  void updateUINotifier() {
     setState(() {});
   }
 
@@ -94,16 +119,23 @@ class _EditWareScreenState extends State<EditWareScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CustomButton(text: "Add Group", onPressed: () {
-                        showDialog(context: context, builder: (context)=>CreateGroupPanel(updateUINotifier));
-
-                      }),
+                      CustomButton(
+                          text: "Add Group",
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    CreateGroupPanel(updateUINotifier));
+                          }),
                       DropListModel(
-                        listItem:[widget.wareInfo.group,...wareProvider.groupList.reversed.toList()].toSet().toList(),
+                        listItem: [
+                          widget.wareInfo.groupName,
+                          ...wareProvider.groupList.reversed.toList()
+                        ].toSet().toList(),
                         onChanged: (value) {
-                          wareProvider.selectedGroup=value;
-                        },),
-
+                          wareProvider.selectedGroup = value;
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -119,11 +151,13 @@ class _EditWareScreenState extends State<EditWareScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       DropListModel(
-                        listItem: [widget.wareInfo.unit,...unitList].toSet().toList(),
+                        listItem: [widget.wareInfo.unit, ...unitList]
+                            .toSet()
+                            .toList(),
                         onChanged: (val) {
-                          unitItem=val;
-                        },),
-
+                          unitItem = val;
+                        },
+                      ),
                       Text(
                         "Unit",
                         style: kHeaderStyle.copyWith(color: kColor1),
@@ -156,11 +190,14 @@ class _EditWareScreenState extends State<EditWareScreen> {
                 ],
               ),
             ),
-            CustomButton(text: "Save Changes", onPressed: () {
-              updateWare();
-              //Navigator.pushNamed(context, WareListScreen.id);
-              Navigator.pushNamedAndRemoveUntil(context, WareListScreen.id,(route)=>false);
-            }),
+            CustomButton(
+                text: "Save Changes",
+                onPressed: () {
+                  updateWare();
+                  //Navigator.pushNamed(context, WareListScreen.id);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, WareListScreen.id, (route) => false);
+                }),
           ],
         ),
       ),

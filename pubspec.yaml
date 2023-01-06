@@ -42,6 +42,9 @@ dependencies:
   auto_size_text: ^3.0.0
   intl: ^0.17.0
   persian_datetime_picker: ^2.5.0
+  sqflite: ^2.2.2
+  path: ^1.8.2
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

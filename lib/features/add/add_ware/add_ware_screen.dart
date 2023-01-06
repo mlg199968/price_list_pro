@@ -4,9 +4,13 @@ import 'package:price_list_pro/common/widgets/custom_textfield.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/add/add_ware/panels/create_group_panel.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
+import 'package:price_list_pro/model/sqflite_model/ware_sqflite.dart';
+import 'package:price_list_pro/model/ware.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AddWareScreen extends StatefulWidget {
   static const String id = "/addWWearScreen";
@@ -26,17 +30,31 @@ class _AddWareScreenState extends State<AddWareScreen> {
 
   String unitItem = unitList[0];
   WareServices wareServices = WareServices();
-  void addWare() {
-    wareServices.addWare(
-      context: context,
+  // void addWare() {
+  //   wareServices.addWare(
+  //     context: context,
+  //     wareName: wareNameController.text,
+  //     unit: unitItem,
+  //     group:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
+  //     cost: double.parse(costPriceController.text),
+  //     sale: double.parse(salePriceController.text),
+  //     quantity: double.parse(quantityController.text),
+  //     description: descriptionController.text
+  //   );
+  // }
+void addWare() async{
+    WareSqflite wareSqflite=WareSqflite(
       wareName: wareNameController.text,
       unit: unitItem,
-      group:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
-      cost: double.parse(costPriceController.text),
-      sale: double.parse(salePriceController.text),
-      quantity: double.parse(quantityController.text),
-      description: descriptionController.text
+      groupName:Provider.of<WareProvider>(context,listen: false).selectedGroup ,
+      cost: costPriceController.text.isEmpty? 0 : double.parse(costPriceController.text),
+      sale: salePriceController.text.isEmpty? 0 : double.parse(salePriceController.text),
+      quantity: quantityController.text.isEmpty? 1000 : double.parse(quantityController.text),
+      description:descriptionController.text.isEmpty? "" : descriptionController.text,
+      wareID: const Uuid().v1(),
+      date: DateTime.now()
     );
+    await WareDB.instance.create(wareSqflite);
   }
 
   @override

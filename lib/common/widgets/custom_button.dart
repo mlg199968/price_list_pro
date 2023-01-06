@@ -22,7 +22,8 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          height: 50,
+          height: height,
+          width: width,
           decoration: BoxDecoration(
               gradient:kMainGradiant, borderRadius: BorderRadius.circular(5)),
           alignment: Alignment.center,

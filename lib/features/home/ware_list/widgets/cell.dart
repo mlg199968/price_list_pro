@@ -27,7 +27,7 @@ class CellContent extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            alignment: Alignment.centerRight,
+            alignment:align==TextAlign.right ? Alignment.centerRight:Alignment.centerLeft,
             height: 50,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(

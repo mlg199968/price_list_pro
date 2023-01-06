@@ -3,10 +3,11 @@ import 'package:price_list_pro/features/home/customer_list/parts/customer_info_p
 import 'package:price_list_pro/features/home/ware_list/panels/info_panel.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 import 'package:price_list_pro/model/customer.dart';
+import 'package:price_list_pro/model/sqflite_model/customer_sqflite.dart';
 
 class CustomerListPart extends StatelessWidget {
   const CustomerListPart({Key? key,required this.customerList}) : super(key: key);
-  final List<Customer> customerList;
+  final List<CustomerSqflite> customerList;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,9 @@ class CustomerListPart extends StatelessWidget {
           },
           child: Row(
             children: [
-              CellContent(cell:customerList[index].firstName,holderFlex:4,),
+              CellContent(cell:customerList[index].nickName, holderFlex:3,align: TextAlign.left,),
               CellContent(cell:customerList[index].lastName, holderFlex:4,),
-              CellContent(cell:customerList[index].nickName, holderFlex:3,),
+              CellContent(cell:customerList[index].firstName,holderFlex:4,),
             ],
           ),
         );

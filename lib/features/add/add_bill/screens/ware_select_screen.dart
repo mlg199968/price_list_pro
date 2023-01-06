@@ -86,7 +86,7 @@ class _WareSelectScreenState extends State<WareSelectScreen> {
                       child: ListView.builder(
                           itemCount: wareList.length,
                           itemBuilder: (context,index){
-                            if(selectedDropListGroup==wareList[index].group) {
+                            if(selectedDropListGroup==wareList[index].groupName) {
                               return GestureDetector(
                                 onTap: (){
                                   Navigator.pop(context,wareList[index]);

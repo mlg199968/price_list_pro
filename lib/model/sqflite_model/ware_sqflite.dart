@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Ware {
+class WareSqflite {
   final String wareName;
   final String unit;
   final String groupName;
@@ -9,9 +9,9 @@ class Ware {
   final num sale;
   final num quantity;
   final DateTime date;
-  final String? id;
+  final String? wareID;
 
-  Ware({
+  WareSqflite({
     required this.wareName,
     required this.unit,
     required this.groupName,
@@ -20,7 +20,7 @@ class Ware {
     required this.sale,
     required this.quantity,
     required this.date,
-    this.id = "",
+    this.wareID="",
   });
 
   Map<String, dynamic> toMap() {
@@ -33,12 +33,12 @@ class Ware {
       'sale': sale,
       'quantity': quantity,
       'date': date.toIso8601String(),
-      'id': id,
+      'wareID': wareID,
     };
   }
 
-  factory Ware.fromMap(Map<String, dynamic> map) {
-    return Ware(
+  factory WareSqflite.fromMap(Map<String, dynamic> map) {
+    return WareSqflite(
       wareName: map['wareName'] ?? "",
       unit: map['unit'] ?? "",
       groupName: map['groupName'] ?? "",
@@ -47,15 +47,34 @@ class Ware {
       sale: map['sale'] ?? 0,
       quantity: map['quantity'] ?? 0,
       date: DateTime.parse(map['date']),
-      id: map['id'] ?? "",
+      wareID: map['wareID'] ?? "",
     );
   }
-
   String toJson() => json.encode(toMap());
+  factory WareSqflite.fromJson(String source) => WareSqflite.fromMap(
+    json.decode(source),
+  );
 
-  factory Ware.fromJson(String source) =>
-      Ware.fromMap(
-        json.decode(source),
+  WareSqflite copy({
+    String? wareName,
+    String? unit,
+    String? groupName,
+    String? description,
+    num? cost,
+    num? sale,
+    num? quantity,
+    DateTime? date,
+    String? wareID,
+  }) =>
+      WareSqflite(
+        wareName: wareName ?? this.wareName,
+        unit: unit ?? this.unit,
+        groupName: groupName ?? this.groupName,
+        description: description ?? this.description,
+        cost: cost ?? this.cost,
+        sale: sale ?? this.sale,
+        quantity: quantity ?? this.quantity,
+        date: date ?? this.date,
+        wareID: wareID ?? this.wareID,
       );
-
 }

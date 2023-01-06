@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
 import 'package:price_list_pro/model/ware.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:price_list_pro/features/home/ware_list/panels/list_panel.dart';
@@ -54,6 +55,7 @@ class _WareListScreenState extends State<WareListScreen> {
                     Consumer<WareProvider>(
                       builder: (context, wareData, child) {
                         return DropListModel(
+                          height: 40,
                           listItem: ["all",...wareData.groupList],
                           onChanged: (val) {
                             selectedDropListGroup = val;
@@ -77,7 +79,7 @@ class _WareListScreenState extends State<WareListScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           child: Column(
             children: <Widget>[
-              //TODO:Price List Header
+              ///Price List Header
               Container(
                 decoration: const BoxDecoration(gradient: kGradiantColor1),
                 margin: const EdgeInsets.only(top: 20),
@@ -112,7 +114,8 @@ class _WareListScreenState extends State<WareListScreen> {
                 ),
               ),
               FutureBuilder(
-                future:wareServices.getWares(context),
+                future:WareDB.instance.readAllData(context),
+                //wareServices.getWares(context),
                 builder:(context,snapshot) {
                   switch(snapshot.connectionState){
                   case ConnectionState.waiting:
@@ -123,7 +126,6 @@ class _WareListScreenState extends State<WareListScreen> {
                   if(snapshot.data==null) {
                      return  const Expanded(child: Center(child: Text("No data")));
                    }
-                  print(snapshot.data!.last.wareName);
                      return ListPanel(
                        context: context,
                       wareList: snapshot.data!,

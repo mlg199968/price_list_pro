@@ -61,7 +61,7 @@ try{
     var jsonfileAfterDelete=storageToJson.filter((obj)=>{ 
         if(obj.id == id){
          obj.wareName=newObj.wareName;
-         obj.group=newObj.group;
+         obj.groupName=newObj.groupName;
          obj.description=newObj.description;
          obj.cost=newObj.cost;
          obj.sale=newObj.sale;

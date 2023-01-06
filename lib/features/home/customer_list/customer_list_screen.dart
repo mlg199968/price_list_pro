@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:price_list_pro/common/widgets/custom_float_action_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
+import 'package:price_list_pro/features/add/add_customer/add_customer_screen.dart';
+import 'package:price_list_pro/features/add/add_ware/add_ware_screen.dart';
 import 'package:price_list_pro/features/home/customer_list/parts/customer_list_part.dart';
+import 'package:price_list_pro/local_storage/customer_local_storage.dart';
 import 'package:price_list_pro/services/customer_services.dart';
 
 
@@ -53,48 +57,51 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             )
           ];
         },
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          child: Column(
-            children: <Widget>[
-              //TODO:Search bar customer list
-              Container(
-                  decoration: const BoxDecoration(gradient: kMainGradiant),
-                  //margin: const EdgeInsets.only(top: 20),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: TextField(
+        body: Scaffold(
+          floatingActionButton: CustomFloatActionButton(onPressed: (){Navigator.pushNamed(context, AddCustomerScreen.id);}),
+          body: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            child: Column(
+              children: <Widget>[
+                //TODO:Search bar customer list
+                Container(
+                    decoration: const BoxDecoration(gradient: kMainGradiant),
+                    //margin: const EdgeInsets.only(top: 20),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    child: TextField(
 
-                    controller: searchCustomerController,
-                    onChanged: (val){},
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: "Search customer",
-                      suffixIcon: const Icon(Icons.search_outlined),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
+                      controller: searchCustomerController,
+                      onChanged: (val){},
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Search customer",
+                        suffixIcon: const Icon(Icons.search_outlined),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  )),
-              FutureBuilder(
-                  future: customerServices.getCustomers(context),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Expanded(
-                          child: Center(child: CircularProgressIndicator()));
-                    } else if (snapshot.data == null) {
-                      return const Expanded(
-                          child: Center(child: Text("No data")));
-                    }
-                    return CustomerListPart(customerList: snapshot.data!);
-                  }),
-            ],
+                    )),
+                FutureBuilder(
+                    future: CustomerDB.instance.readAllData(context),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Expanded(
+                            child: Center(child: CircularProgressIndicator()));
+                      } else if (snapshot.data == null) {
+                        return const Expanded(
+                            child: Center(child: Text("No data")));
+                      }
+                      return CustomerListPart(customerList: snapshot.data!);
+                    }),
+              ],
+            ),
           ),
         ),
       ),

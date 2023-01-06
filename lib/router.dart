@@ -8,10 +8,13 @@ import 'package:price_list_pro/features/add/add_ware/add_ware_screen.dart';
 import 'package:price_list_pro/features/auth/signin_screen.dart';
 import 'package:price_list_pro/features/auth/signup_screen.dart';
 import 'package:price_list_pro/features/home/customer_list/customer_list_screen.dart';
+import 'package:price_list_pro/features/home/customer_list/screens/edit_customer_screen.dart';
 import 'package:price_list_pro/features/home/home_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/screens/edit_ware_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/ware_list_screen.dart';
 import 'package:price_list_pro/features/main/main_screen.dart';
+import 'package:price_list_pro/model/sqflite_model/customer_sqflite.dart';
+import 'package:price_list_pro/model/sqflite_model/ware_sqflite.dart';
 import 'package:price_list_pro/model/ware.dart';
 
 Route generateRoute(RouteSettings routeSettings) {
@@ -41,8 +44,11 @@ Route generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_)=> const WareListScreen());
 
     case EditWareScreen.id:
-      Ware wareInfo=routeSettings.arguments as Ware;
+      WareSqflite wareInfo=routeSettings.arguments as WareSqflite;
       return MaterialPageRoute(builder: (_) => EditWareScreen(wareInfo: wareInfo,));
+      case EditCustomerScreen.id:
+      CustomerSqflite customerSqflite=routeSettings.arguments as CustomerSqflite;
+      return MaterialPageRoute(builder: (_) => EditCustomerScreen(customerInfo: customerSqflite,));
      default:
       return MaterialPageRoute(
           builder: (_) => const Scaffold(
