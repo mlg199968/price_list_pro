@@ -145,7 +145,8 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
                 onPressed: () {
                   addCustomer();
                   setState(() {});
-                  Navigator.of(context).pushNamedAndRemoveUntil(CustomerListScreen.id,(route)=>route.settings.name ==AddCustomerScreen.id);
+                  Navigator.of(context).popAndPushNamed(CustomerListScreen.id);
+                  //Navigator.of(context).pushNamedAndRemoveUntil(CustomerListScreen.id,(route)=>route.settings.name ==AddCustomerScreen.id);
                 }),
           ],
         ),

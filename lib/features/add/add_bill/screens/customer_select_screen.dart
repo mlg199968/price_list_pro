@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
+import 'package:price_list_pro/local_storage/customer_local_storage.dart';
 import 'package:price_list_pro/model/customer.dart';
+import 'package:price_list_pro/model/sqflite_model/customer_sqflite.dart';
 import 'package:price_list_pro/services/customer_services.dart';
 
 
@@ -76,7 +78,7 @@ class _CustomerSelectScreenState extends State<CustomerSelectScreen> {
                     ),
                   )),
               FutureBuilder(
-                  future: customerServices.getCustomers(context),
+                  future: CustomerDB.instance.readAllData(context),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                     return const Expanded(
@@ -86,7 +88,7 @@ class _CustomerSelectScreenState extends State<CustomerSelectScreen> {
                       return const Expanded(
                           child: Center(child: CircularProgressIndicator()));
                     }
-                    List<Customer> customerList=snapshot.data!;
+                    List<CustomerSqflite> customerList=snapshot.data!;
                     return Expanded(
                       child: ListView.builder(
                           itemCount: customerList.length,
@@ -95,7 +97,7 @@ class _CustomerSelectScreenState extends State<CustomerSelectScreen> {
                               margin: const EdgeInsets.symmetric(horizontal: 10),
                               child: GestureDetector(
                                 onTap: (){
-                                   Customer customer=snapshot.data![index];
+                                   CustomerSqflite customer=snapshot.data![index];
                                   Navigator.pop(context,customer);
                                 },
                                 child: Row(

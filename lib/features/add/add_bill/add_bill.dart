@@ -7,11 +7,13 @@ import 'package:price_list_pro/common/widgets/custom_date_picker.dart';
 import 'package:price_list_pro/common/widgets/custom_float_action_button.dart';
 import 'package:price_list_pro/constants/constants.dart';
 import 'package:price_list_pro/constants/utils.dart';
+import 'package:price_list_pro/features/add/add_bill/panels/tab_bar.dart';
 import 'package:price_list_pro/features/add/add_bill/panels/ware_to_bill_panel.dart';
 import 'package:price_list_pro/features/add/add_bill/screens/customer_select_screen.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
 import 'package:price_list_pro/model/bill_ware.dart';
 import 'package:price_list_pro/model/customer.dart';
+import 'package:price_list_pro/model/sqflite_model/customer_sqflite.dart';
 import 'package:price_list_pro/services/bill_services.dart';
 
 class AddBill extends StatefulWidget {
@@ -24,7 +26,7 @@ class AddBill extends StatefulWidget {
 
 class _AddBillState extends State<AddBill> {
   List<BillWare> billWares = [];
-  Customer? customer;
+  CustomerSqflite? customer;
   String customerName="Choose";
   bool isShow = false;
   double sum = 0;
@@ -32,13 +34,15 @@ class _AddBillState extends State<AddBill> {
   String time = DateFormat('kk:mm').format(DateTime.now());
      // DateFormat('kk:mm:ss  y/ MM/ dd').format(DateTime.now());
 
-  BillServices billServices=BillServices();
-  void postBill(BuildContext context)async{
-    if(customer!=null) {
-      await billServices.PostBill(context: context, billWares: billWares, customer: customer!, total: sum, time: DateTime.now());
-    }
-  }
+  //BillServices billServices=BillServices();
+  // void postBill(BuildContext context)async{
+  //   if(customer!=null) {
+  //     await billServices.PostBill(context: context, billWares: billWares, customer: customer!, total: sum, time: DateTime.now());
+  //   }
+  //}
+void saveBillOnLocalStorage(){
 
+}
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class _AddBillState extends State<AddBill> {
       floatingActionButtonLocation: CustomFabLoc(),
       floatingActionButton: CustomFloatActionButton(
         onPressed: () {
-          showDialog(context: context, builder: (context) => WareToBillPanel())
+          showDialog(context: context, builder: (context) => TabBarHolder())
               .then((value) {
             if (value != null) {
               billWares.add(value);
@@ -279,10 +283,11 @@ class _AddBillState extends State<AddBill> {
             Opacity(
               opacity:customer==null || billWares.isEmpty? .3 :1.0,
               child: CustomButton(
+                width: double.infinity,
                 text: "Publish",
                 onPressed: () {
                   if(customer != null || billWares.isNotEmpty) {
-                    postBill(context);
+                    saveBillOnLocalStorage();
                   }
                   setState(() {});
                 },

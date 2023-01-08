@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:price_list_pro/common/widgets/drop_list_model.dart';
 import 'package:price_list_pro/constants/constants.dart';
-import 'package:price_list_pro/features/home/ware_list/panels/list_panel.dart';
 import 'package:price_list_pro/features/home/ware_list/widgets/cell.dart';
-import 'package:price_list_pro/model/customer.dart';
+import 'package:price_list_pro/local_storage/ware_local_storage.dart';
+import 'package:price_list_pro/model/sqflite_model/ware_sqflite.dart';
 import 'package:price_list_pro/model/ware.dart';
 import 'package:price_list_pro/provider/ware_provider.dart';
-import 'package:price_list_pro/services/customer_services.dart';
 import 'package:price_list_pro/services/ware_services.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,7 @@ class WareSelectScreen extends StatefulWidget {
 class _WareSelectScreenState extends State<WareSelectScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchWareController = TextEditingController();
-  WareServices wareServices=WareServices();
+  //WareServices wareServices=WareServices();
   String selectedDropListGroup="all";
 
   @override
@@ -70,7 +69,7 @@ class _WareSelectScreenState extends State<WareSelectScreen> {
           child: Column(
             children: <Widget>[
               FutureBuilder(
-                  future: wareServices.getWares(context),
+                  future: WareDB.instance.readAllData(context),
                   builder: (context, snapshot) {
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -81,7 +80,7 @@ class _WareSelectScreenState extends State<WareSelectScreen> {
                       return const Expanded(
                           child: Center(child: Text("No data")));
                     }
-                    List<Ware> wareList=snapshot.data!;
+                    List<WareSqflite> wareList=snapshot.data!;
                     return Expanded(
                       child: ListView.builder(
                           itemCount: wareList.length,
